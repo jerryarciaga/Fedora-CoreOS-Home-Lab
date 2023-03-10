@@ -1,0 +1,81 @@
+version: "3"
+services:
+  # Pihole - DNS Sinkhole
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    hostname: pihole
+    restart: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8080:80/tcp"
+    dns:
+      - 127.0.0.1
+    environment:
+      TZ: "Asia/Seoul"
+    volumes:
+      - "pihole:/etc/pihole"
+      - "pihole_dnsmasq:/etc/dnsmasq.d"
+    cap_add:
+      - NET_ADMIN
+
+  # Nextcloud - Self-hosted cloud service
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud:latest
+    hostname: nextcloud
+    restart: always
+    ports:
+      - 8081:80
+    dns:
+      - 172.20.0.3
+    volumes:
+      - nextcloud:/var/www/html
+    depends_on:
+      - nextcloud_db
+    environment:
+      - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
+      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
+      - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
+      - POSTGRES_USER_FILE=/run/secrets/nextcloud_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_db_password
+    secrets:
+      - nextcloud_admin_user
+      - nextcloud_admin_password
+      - nextcloud_db_file
+      - nextcloud_db_user
+      - nextcloud_db_password
+  nextcloud_db:
+    container_name: nextcloud_db
+    image: postgres:latest
+    hostname: nextcloud_db
+    restart: always
+    environment:
+      - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
+      - POSTGRES_USER_FILE=/run/secrets/nextcloud_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_db_password
+    volumes:
+      - nextcloud_db:/var/lib/postgresql/data
+    secrets:
+      - nextcloud_db_file
+      - nextcloud_db_user
+      - nextcloud_db_password
+
+volumes:
+  pihole:
+  pihole_dnsmasq:
+  nextcloud:
+  nextcloud_db:
+
+secrets:
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user.txt
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password.txt
+  nextcloud_db_file:
+    file: ./secrets/nextcloud_db_name.txt
+  nextcloud_db_user:
+    file: ./secrets/nextcloud_db_user.txt
+  nextcloud_db_password:
+    file: ./secrets/nextcloud_db_password.txt

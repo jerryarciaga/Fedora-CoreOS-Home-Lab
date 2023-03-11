@@ -13,7 +13,7 @@ services:
     dns:
       - 127.0.0.1
     environment:
-      TZ: "Asia/Seoul"
+      - TZ=Asia/Seoul
     volumes:
       - "pihole:/etc/pihole"
       - "pihole_dnsmasq:/etc/dnsmasq.d"
@@ -35,6 +35,7 @@ services:
     depends_on:
       - nextcloud_db
     environment:
+      - TZ=Asia/Seoul
       - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
       - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
       - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
@@ -52,6 +53,7 @@ services:
     hostname: nextcloud_db
     restart: always
     environment:
+      - TZ=Asia/Seoul
       - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
       - POSTGRES_USER_FILE=/run/secrets/nextcloud_db_user
       - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_db_password

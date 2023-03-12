@@ -3,8 +3,8 @@ services:
   
   # Heimdall - Link Organizer
   heimdall:
-    container_name: heimdall
     image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
     hostname: heimdall
     restart: unless-stopped
     networks:
@@ -24,8 +24,8 @@ services:
 
   # Pihole - DNS Sinkhole
   pihole:
-    container_name: pihole
     image: pihole/pihole:latest
+    container_name: pihole
     hostname: pihole
     restart: always
     networks:
@@ -47,8 +47,8 @@ services:
 
   # Nextcloud - Self-hosted cloud service
   nextcloud:
-    container_name: nextcloud
     image: nextcloud:latest
+    container_name: nextcloud
     hostname: nextcloud
     restart: always
     networks:
@@ -76,8 +76,8 @@ services:
       - nextcloud_db_user
       - nextcloud_db_password
   nextcloud_db:
-    container_name: nextcloud_db
     image: postgres:latest
+    container_name: nextcloud_db
     hostname: nextcloud_db
     restart: always
     networks:

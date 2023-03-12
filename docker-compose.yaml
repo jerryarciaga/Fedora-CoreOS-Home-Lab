@@ -7,11 +7,14 @@ services:
     image: lscr.io/linuxserver/heimdall:latest
     hostname: heimdall
     restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.3
     ports:
       - 8000:80/tcp
       - 8443:443/tcp
     dns:
-      - 172.20.0.3
+      - 172.20.1.2
     environment:
       - TZ=Asia/Seoul
       - PUID=1000
@@ -25,6 +28,9 @@ services:
     image: pihole/pihole:latest
     hostname: pihole
     restart: always
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.2
     ports:
       - 53:53/tcp
       - 53:53/udp
@@ -45,10 +51,13 @@ services:
     image: nextcloud:latest
     hostname: nextcloud
     restart: always
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.4
     ports:
       - 8081:80
     dns:
-      - 172.20.0.3
+      - 172.20.1.2
     volumes:
       - nextcloud:/var/www/html
     depends_on:
@@ -71,6 +80,9 @@ services:
     image: postgres:latest
     hostname: nextcloud_db
     restart: always
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.5
     environment:
       - TZ=Asia/Seoul
       - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
@@ -82,6 +94,13 @@ services:
       - nextcloud_db_file
       - nextcloud_db_user
       - nextcloud_db_password
+
+networks:
+  homelab:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.1.0/24
 
 volumes:
   heimdall:

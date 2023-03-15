@@ -94,6 +94,25 @@ services:
       - nextcloud_db_file
       - nextcloud_db_user
       - nextcloud_db_password
+  
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:latest
+    container_name: freshrss
+    hostname: freshrss
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.6
+    ports:
+      - 8082:80
+    dns:
+      - 172.20.1.2
+    environment:
+      - TZ=Asia/Seoul
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - freshrss:/config
 
 networks:
   homelab:
@@ -108,6 +127,7 @@ volumes:
   pihole_dnsmasq:
   nextcloud:
   nextcloud_db:
+  freshrss:
 
 secrets:
   nextcloud_admin_user:

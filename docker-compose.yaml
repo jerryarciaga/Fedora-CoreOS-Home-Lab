@@ -113,6 +113,27 @@ services:
       - PGID=1000
     volumes:
       - freshrss:/config
+    depends_on:
+      - freshrss_db
+  freshrss_db:
+    image: postgres:latest
+    container_name: freshrss_db
+    hostname: freshrss_db
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.7
+    environment:
+      - TZ=Asia/Seoul
+      - POSTGRES_DB_FILE=/run/secrets/freshrss_db_file
+      - POSTGRES_USER_FILE=/run/secrets/freshrss_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/freshrss_db_password
+    volumes:
+      - freshrss_db:/var/lib/postgresql/data
+    secrets:
+      - freshrss_db_file
+      - freshrss_db_user
+      - freshrss_db_password
 
 networks:
   homelab:
@@ -128,6 +149,7 @@ volumes:
   nextcloud:
   nextcloud_db:
   freshrss:
+  freshrss_db:
 
 secrets:
   nextcloud_admin_user:
@@ -140,3 +162,10 @@ secrets:
     file: ./secrets/nextcloud_db_user.txt
   nextcloud_db_password:
     file: ./secrets/nextcloud_db_password.txt
+
+  freshrss_db_file:
+    file: ./secrets/freshrss_db_name.txt
+  freshrss_db_user:
+    file: ./secrets/freshrss_db_user.txt
+  freshrss_db_password:
+    file: ./secrets/freshrss_db_password.txt

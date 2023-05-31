@@ -33,7 +33,7 @@ services:
 		image: sample_image
 		container_name: sample_container
 		hostname: sample_container
-        cpus: "0.5"
+        cpus: 0.5
         mem_limit: 30m
 		restart: # depends on restart policy
 		networks:

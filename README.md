@@ -10,6 +10,8 @@ The services profile contains:
 * The **container** name.
 * The **image** it was based in.
 * The container's **hostname**. For simplicity's sake, I tend to name it the same as the container/image name.
+* **CPU Usage**
+* **Memory Limit** `mem_limit`, the maximum memory limit to avoid crashing
 * Restart policy if applicable.
 * **Networks**: because I have a DNS sinkhole as one of my containers, I would specify a static IP address for each container.
 * **Ports**: Remember to open up ports in the firewall whenever you do map ports from host to container.
@@ -31,6 +33,8 @@ services:
 		image: sample_image
 		container_name: sample_container
 		hostname: sample_container
+        cpus: "0.5"
+        mem_limit: 30m
 		restart: # depends on restart policy
 		networks:
 			sample_network:

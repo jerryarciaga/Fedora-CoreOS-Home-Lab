@@ -31,10 +31,15 @@ services:
 	# sample_container - short description of sample container
 	sample_container:
 		image: sample_image
+        resources:
+          limits:
+            cpus: '0.001'
+            memory: 25M
+          reservations:
+            cpus: '0.0001'
+            memory: 10M
 		container_name: sample_container
 		hostname: sample_container
-        cpus: 0.5
-        mem_limit: 30m
 		restart: # depends on restart policy
 		networks:
 			sample_network:

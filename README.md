@@ -52,7 +52,7 @@ services:
         	- TZ=UTC
         	# - VARIABLE=VALUE
         volumes:
-		    - sample_volume:/sample_mount
+            - sample_volume:/sample_mount
 	
 volumes:
     sample_volume:

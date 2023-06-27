@@ -28,9 +28,9 @@ version: "3"
 
 services:
 	
-	# sample_container - short description of sample container
-	sample_container:
-		image: sample_image
+    # sample_container - short description of sample container
+    sample_container:
+    	image: sample_image
         resources:
           limits:
             cpus: '0.001'

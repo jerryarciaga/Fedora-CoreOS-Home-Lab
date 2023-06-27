@@ -51,16 +51,16 @@ services:
         environment:
         	- TZ=UTC
         	# - VARIABLE=VALUE
-volumes:
-			- sample_volume:/sample_mount
+        volumes:
+		    - sample_volume:/sample_mount
 	
 volumes:
-		sample_volume:
+    sample_volume:
 
 networks:
-	sample_network:
-		ipam:
-			driver: default
-			config:
-				- subnet: 172.20.1.0/24
+    sample_network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.20.1.0/24
 ```

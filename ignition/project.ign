@@ -96,7 +96,6 @@
           "rw",
           "relatime"
         ],
-        "path": "/",
         "wipeFilesystem": true
       },
       {

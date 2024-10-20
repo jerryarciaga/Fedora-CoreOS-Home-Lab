@@ -22,23 +22,36 @@
   "storage": {
     "disks": [
       {
-        "device": "/dev/sda",
+        "device": "/dev/nvme0n1",
         "partitions": [
           {
+            "label": "boot",
             "number": 1,
             "sizeMiB": 500
           },
           {
+            "label": "root",
             "number": 2,
             "sizeMiB": 10000
           },
           {
-            "label": "swap",
+            "label": "var",
             "number": 3,
+            "sizeMiB": 2000
+          },
+          {
+            "label": "varlog",
+            "number": 4,
+            "sizeMiB": 10000
+          },
+          {
+            "label": "swap",
+            "number": 5,
             "sizeMiB": 16000
           },
           {
-            "number": 4,
+            "label": "containers",
+            "number": 6,
             "sizeMiB": 0
           }
         ],
@@ -47,20 +60,19 @@
     ],
     "filesystems": [
       {
-        "device": "/dev/sda1",
+        "device": "/dev/disk/by-partlabel/boot",
         "format": "ext4",
         "label": "boot",
         "mountOptions": [
           "rw",
           "relatime",
-          "utf8",
-          "errors=remount-ro"
+          "utf8"
         ],
         "path": "/boot",
         "wipeFilesystem": true
       },
       {
-        "device": "/dev/sda2",
+        "device": "/dev/disk/by-partlabel/root",
         "format": "xfs",
         "label": "root",
         "mountOptions": [
@@ -71,17 +83,29 @@
         "wipeFilesystem": true
       },
       {
+        "device": "/dev/disk/by-partlabel/var",
+        "format": "xfs",
+        "path": "/var",
+        "wipeFilesystem": true
+      },
+      {
+        "device": "/dev/disk/by-partlabel/varlog",
+        "format": "xfs",
+        "path": "/var/log",
+        "wipeFilesystem": true
+      },
+      {
         "device": "/dev/disk/by-partlabel/swap",
         "format": "swap",
         "label": "swap",
         "wipeFilesystem": true
       },
       {
-        "device": "/dev/sda4",
+        "device": "/dev/disk/by-partlabel/containers",
         "format": "xfs",
-        "label": "var",
-        "path": "/home/core/.local/share/containers/storage",
-        "wipeFilesystem": true
+        "label": "containers",
+        "path": "/home/core/.local/share/containers",
+        "wipeFilesystem": false
       }
     ]
   },

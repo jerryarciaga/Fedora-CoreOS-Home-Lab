@@ -7,15 +7,24 @@ storage:
       partitions:
         - number: 1
           size_mib: 500
+          label: boot
         - number: 2
           size_mib: 10000
+          label: root
         - number: 3
+          size_mib: 2000
+          label: var
+        - number: 4
+          size_mib: 10000
+          label: varlog
+        - number: 5
           size_mib: 16000
           label: swap
-        - number: 4
+        - number: 6
           size_mib: 0
+          label: containers
   filesystems:
-    - device: /dev/nvme0n1p1
+    - device: /dev/disk/by-partlabel/boot
       format: ext4
       label: boot
       path: /boot
@@ -24,8 +33,7 @@ storage:
         - rw
         - relatime
         - utf8
-        - errors=remount-ro
-    - device: /dev/nvme0n1p2
+    - device: /dev/disk/by-partlabel/root
       format: xfs
       label: root
       path: /
@@ -33,16 +41,24 @@ storage:
       mount_options:
         - rw
         - relatime
+    - device: /dev/disk/by-partlabel/var
+      format: xfs
+      path: /var
+      wipe_filesystem: true
+    - device: /dev/disk/by-partlabel/varlog
+      format: xfs
+      path: /var/log
+      wipe_filesystem: true
     - device: /dev/disk/by-partlabel/swap
       format: swap
       label: swap
       wipe_filesystem: true
       with_mount_unit: true
-    - device: /dev/nvme0n1p4
+    - device: /dev/disk/by-partlabel/containers
       format: xfs
-      label: var
-      path: /home/core/.local/share/containers/storage
-      wipe_filesystem: true
+      label: containers
+      path: /home/core/.local/share/containers
+      wipe_filesystem: false
 systemd:
   units:
     - name: rpm-ostree-install-wifi.service

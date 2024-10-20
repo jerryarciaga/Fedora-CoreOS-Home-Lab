@@ -80,11 +80,6 @@
         "device": "/dev/disk/by-partlabel/boot",
         "format": "ext4",
         "label": "boot",
-        "mountOptions": [
-          "rw",
-          "relatime",
-          "utf8"
-        ],
         "path": "/boot",
         "wipeFilesystem": true
       },
@@ -92,10 +87,6 @@
         "device": "/dev/disk/by-partlabel/root",
         "format": "xfs",
         "label": "root",
-        "mountOptions": [
-          "rw",
-          "relatime"
-        ],
         "wipeFilesystem": true
       },
       {

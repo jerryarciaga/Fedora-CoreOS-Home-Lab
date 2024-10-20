@@ -29,17 +29,10 @@ storage:
       label: boot
       path: /boot
       wipe_filesystem: true
-      mount_options:
-        - rw
-        - relatime
-        - utf8
     - device: /dev/disk/by-partlabel/root
       format: xfs
       label: root
       wipe_filesystem: true
-      mount_options:
-        - rw
-        - relatime
     - device: /dev/disk/by-partlabel/var
       format: xfs
       path: /var

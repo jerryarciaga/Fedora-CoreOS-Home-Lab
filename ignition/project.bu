@@ -16,7 +16,7 @@ storage:
           label: var
         - number: 4
           size_mib: 10000
-          label: varlog
+          label: log
         - number: 5
           size_mib: 16000
           label: swap
@@ -29,19 +29,25 @@ storage:
       label: boot
       path: /boot
       wipe_filesystem: true
+      with_mount_unit: true
     - device: /dev/disk/by-partlabel/root
       format: xfs
       label: root
       path: /
       wipe_filesystem: true
+      with_mount_unit: true
     - device: /dev/disk/by-partlabel/var
       format: xfs
       path: /var
+      label: var
       wipe_filesystem: true
-    - device: /dev/disk/by-partlabel/varlog
+      with_mount_unit: true
+    - device: /dev/disk/by-partlabel/log
       format: xfs
       path: /var/log
+      label: log
       wipe_filesystem: true
+      with_mount_unit: true
     - device: /dev/disk/by-partlabel/swap
       format: swap
       label: swap

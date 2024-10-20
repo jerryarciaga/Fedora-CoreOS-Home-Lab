@@ -32,6 +32,7 @@ storage:
     - device: /dev/disk/by-partlabel/root
       format: xfs
       label: root
+      path: /
       wipe_filesystem: true
     - device: /dev/disk/by-partlabel/var
       format: xfs
@@ -49,7 +50,6 @@ storage:
     - device: /dev/disk/by-partlabel/containers
       format: xfs
       label: containers
-      path: /home/core/.local/share/containers
       wipe_filesystem: false
   files:
     - path: /etc/hostname

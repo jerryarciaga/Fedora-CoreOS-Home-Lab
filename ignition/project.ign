@@ -87,6 +87,7 @@
         "device": "/dev/disk/by-partlabel/root",
         "format": "xfs",
         "label": "root",
+        "path": "/",
         "wipeFilesystem": true
       },
       {
@@ -111,7 +112,6 @@
         "device": "/dev/disk/by-partlabel/containers",
         "format": "xfs",
         "label": "containers",
-        "path": "/home/core/.local/share/containers",
         "wipeFilesystem": false
       }
     ]

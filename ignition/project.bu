@@ -1,0 +1,75 @@
+variant: fcos
+version: 1.5.0
+storage:
+  disks:
+    - device: /dev/nvme0n1
+      wipe_table: true
+      partitions:
+        - number: 1
+          size_mib: 500
+        - number: 2
+          size_mib: 10000
+        - number: 3
+          size_mib: 16000
+          label: swap
+        - number: 4
+          size_mib: 0
+  filesystems:
+    - device: /dev/nvme0n1p1
+      format: ext4
+      label: boot
+      path: /boot
+      wipe_filesystem: true
+      mount_options:
+        - rw
+        - relatime
+        - utf8
+        - errors=remount-ro
+    - device: /dev/nvme0n1p2
+      format: xfs
+      label: root
+      path: /
+      wipe_filesystem: true
+      mount_options:
+        - rw
+        - relatime
+    - device: /dev/disk/by-partlabel/swap
+      format: swap
+      label: swap
+      wipe_filesystem: true
+      with_mount_unit: true
+    - device: /dev/nvme0n1p4
+      format: xfs
+      label: var
+      path: /home/core/.local/share/containers/storage
+      wipe_filesystem: true
+systemd:
+  units:
+    - name: rpm-ostree-install-wifi.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Enable Wi-Fi
+        Wants=network-online.target
+        After=network-online.target
+        Before=zincati.service
+        ConditionPathExists=!/var/lib/%N.stamp
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive NetworkManager-wifi iwl-mvm-firmware
+        ExecStart=/bin/touch /var/lib/%N.stamp
+        ExecStart=/bin/systemctl --no-block reboot
+        [Install]
+        WantedBy=multi-user.target
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBO9FIbZO1T3noHbeBA/j9tmjcZjQl4omeK79WhInQck jerry@latte
+      password_hash: $y$j9T$K/P200.9L1OXAXe0Q2ClO1$1rtYB8t9YVooeCOmUoRlUPKI701sYbEKDOFNV3eqTZ4
+      home_dir: /home/core
+      groups:
+        - wheel
+        - sudo
+      shell: /bin/bash

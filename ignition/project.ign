@@ -58,6 +58,23 @@
         "wipeTable": true
       }
     ],
+    "files": [
+      {
+        "group": {
+          "id": 0
+        },
+        "overwrite": true,
+        "path": "/etc/hostname",
+        "user": {
+          "id": 0
+        },
+        "contents": {
+          "compression": "",
+          "source": "data:,barista"
+        },
+        "mode": 420
+      }
+    ],
     "filesystems": [
       {
         "device": "/dev/disk/by-partlabel/boot",

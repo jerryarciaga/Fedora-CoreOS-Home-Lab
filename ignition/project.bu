@@ -59,6 +59,16 @@ storage:
       label: containers
       path: /home/core/.local/share/containers
       wipe_filesystem: false
+  files:
+    - path: /etc/hostname
+      overwrite: true
+      contents:
+        inline: barista
+      mode: 0644
+      user:
+        id: 0
+      group:
+        id: 0
 systemd:
   units:
     - name: rpm-ostree-install-wifi.service

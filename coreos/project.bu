@@ -2,52 +2,14 @@ variant: fcos
 version: 1.5.0
 storage:
   disks:
-    - device: /dev/nvme0n1
+    - device: /dev/disk/by-diskseq/1
       wipe_table: true
       partitions:
-        - number: 1
-          size_mib: 500
-          label: boot
-        - number: 2
-          size_mib: 10000
-          label: root
-        - number: 3
-          size_mib: 2000
-          label: var
-        - number: 4
-          size_mib: 10000
-          label: log
-        - number: 5
+        - label: swap
           size_mib: 16000
-          label: swap
-        - number: 6
+        - label: containers
           size_mib: 0
-          label: containers
   filesystems:
-    - device: /dev/disk/by-partlabel/boot
-      format: ext4
-      label: boot
-      path: /boot
-      wipe_filesystem: true
-      with_mount_unit: true
-    - device: /dev/disk/by-partlabel/root
-      format: xfs
-      label: root
-      path: /
-      wipe_filesystem: true
-      with_mount_unit: true
-    - device: /dev/disk/by-partlabel/var
-      format: xfs
-      path: /var
-      label: var
-      wipe_filesystem: true
-      with_mount_unit: true
-    - device: /dev/disk/by-partlabel/log
-      format: xfs
-      path: /var/log
-      label: log
-      wipe_filesystem: true
-      with_mount_unit: true
     - device: /dev/disk/by-partlabel/swap
       format: swap
       label: swap
@@ -56,6 +18,8 @@ storage:
     - device: /dev/disk/by-partlabel/containers
       format: xfs
       label: containers
+      path: /home
+      with_mount_unit: true
       wipe_filesystem: false
   files:
     - path: /etc/hostname

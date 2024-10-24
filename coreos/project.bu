@@ -9,22 +9,13 @@ storage:
           label: boot
           size_mib: 500
         - number: 2
-          label: efi
+          label: EFI-SYSTEM
           size_mib: 500
         - number: 3
-          label: root
-          size_mib: 10000
-        - number: 4
-          label: var
-          size_mib: 2000
-        - number: 5
-          label: log
-          size_mib: 10000
-        - number: 6
           label: swap
           size_mib: 16000
-        - number: 7
-          label: home
+        - number: 4
+          label: root
           size_mib: 0
   filesystems:
     - device: /dev/disk/by-partlabel/boot
@@ -33,41 +24,23 @@ storage:
       path: /boot
       wipe_filesystem: true
       with_mount_unit: false
-    - device: /dev/disk/by-partlabel/efi
+    - device: /dev/disk/by-partlabel/EFI-SYSTEM
       format: vfat
       label: EFI-SYSTEM
       path: /boot/efi
       wipe_filesystem: true
       with_mount_unit: false
-    - device: /dev/disk/by-partlabel/root
-      format: xfs
-      label: root
-      path: /sysroot
-      wipe_filesystem: true
-      with_mount_unit: true
-    - device: /dev/disk/by-partlabel/var
-      format: xfs
-      label: var
-      path: /var
-      wipe_filesystem: true
-      with_mount_unit: true
-    - device: /dev/disk/by-partlabel/log
-      format: xfs
-      label: log
-      path: /var/log
-      wipe_filesystem: true
-      with_mount_unit: true
     - device: /dev/disk/by-partlabel/swap
       format: swap
       label: swap
       wipe_filesystem: true
       with_mount_unit: true
-    - device: /dev/disk/by-partlabel/home
+    - device: /dev/disk/by-partlabel/root
       format: xfs
-      label: home
-      path: /home
+      label: root
+      path: /
+      wipe_filesystem: true
       with_mount_unit: true
-      wipe_filesystem: false
   files:
     - path: /etc/hostname
       overwrite: true

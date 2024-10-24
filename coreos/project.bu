@@ -5,19 +5,66 @@ storage:
     - device: /dev/disk/by-diskseq/1
       wipe_table: true
       partitions:
-        - label: swap
+        - number: 1
+          label: boot
+          size_mib: 500
+        - number: 2
+          label: efi
+          size_mib: 500
+        - number: 3
+          label: root
+          size_mib: 10000
+        - number: 4
+          label: var
+          size_mib: 2000
+        - number: 5
+          label: log
+          size_mib: 10000
+        - number: 6
+          label: swap
           size_mib: 16000
-        - label: containers
+        - number: 7
+          label: home
           size_mib: 0
   filesystems:
+    - device: /dev/disk/by-partlabel/boot
+      format: ext4
+      label: boot
+      path: /boot
+      wipe_filesystem: true
+      with_mount_unit: true
+    - device: /dev/disk/by-partlabel/efi
+      format: vfat
+      label: boot
+      path: /boot/efi
+      wipe_filesystem: true
+      with_mount_unit: true
+    - device: /dev/disk/by-partlabel/root
+      format: xfs
+      label: root
+      path: /
+      wipe_filesystem: true
+      with_mount_unit: true
+    - device: /dev/disk/by-partlabel/var
+      format: xfs
+      label: var
+      path: /var
+      wipe_filesystem: true
+      with_mount_unit: true
+    - device: /dev/disk/by-partlabel/log
+      format: xfs
+      label: log
+      path: /var/log
+      wipe_filesystem: true
+      with_mount_unit: true
     - device: /dev/disk/by-partlabel/swap
       format: swap
       label: swap
       wipe_filesystem: true
       with_mount_unit: true
-    - device: /dev/disk/by-partlabel/containers
+    - device: /dev/disk/by-partlabel/home
       format: xfs
-      label: containers
+      label: home
       path: /home
       with_mount_unit: true
       wipe_filesystem: false

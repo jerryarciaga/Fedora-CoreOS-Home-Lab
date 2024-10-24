@@ -63,6 +63,13 @@
           "source": "data:,barista"
         },
         "mode": 420
+      },
+      {
+        "path": "/etc/selinux/config",
+        "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/5SQwU7DMBBE7/2KkXql/QAkjj0glYLUIsHR2JtmhbOOvJtC/h4ljV04klNs77zZmTVOLSsajgSfxHKKCmsJas4IqcFxt2cZvpHkej+qUbddraeHx8Pr2wO8E5j7JCSZFdaSEqzNRLi4OJDer9aYPpImZc9yxqZylfyQ2Ub0KbIfwbqMUdgusp5yx6p8oV+6PrOY4stlYTkrWNTIhWmBalMAgdV9RArY4JBuhGoYkwuTXYlUAbeYp/eX3X+imstnstnyVH77nDypksJlmk5G3ijcLZKOhbuhwwZPKXDD3hknmW0qYV55i2eJI5TirP/LLZ0VeumgizqRh2iMPV0o4libv85yklrBHLfYrn4CAAD//09thlAmAgAA"
+        }
       }
     ],
     "filesystems": [

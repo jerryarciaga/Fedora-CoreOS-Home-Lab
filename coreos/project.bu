@@ -32,17 +32,17 @@ storage:
       label: boot
       path: /boot
       wipe_filesystem: true
-      with_mount_unit: true
+      with_mount_unit: false
     - device: /dev/disk/by-partlabel/efi
       format: vfat
-      label: boot
+      label: EFI-SYSTEM
       path: /boot/efi
       wipe_filesystem: true
-      with_mount_unit: true
+      with_mount_unit: false
     - device: /dev/disk/by-partlabel/root
       format: xfs
       label: root
-      path: /
+      path: /sysroot
       wipe_filesystem: true
       with_mount_unit: true
     - device: /dev/disk/by-partlabel/var

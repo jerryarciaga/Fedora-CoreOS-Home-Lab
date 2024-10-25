@@ -5,40 +5,12 @@ storage:
     - device: /dev/disk/by-diskseq/1
       wipe_table: true
       partitions:
-        - number: 1
-          label: boot
-          size_mib: 500
-        - number: 2
-          label: EFI-SYSTEM
-          size_mib: 500
-        - number: 3
-          label: swap
+        - label: swap
           size_mib: 16000
-        - number: 4
-          label: root
-          size_mib: 0
   filesystems:
-    - device: /dev/disk/by-partlabel/boot
-      format: ext4
-      label: boot
-      path: /boot
-      wipe_filesystem: true
-      with_mount_unit: false
-    - device: /dev/disk/by-partlabel/EFI-SYSTEM
-      format: vfat
-      label: EFI-SYSTEM
-      path: /boot/efi
-      wipe_filesystem: true
-      with_mount_unit: false
     - device: /dev/disk/by-partlabel/swap
       format: swap
       label: swap
-      wipe_filesystem: true
-      with_mount_unit: true
-    - device: /dev/disk/by-partlabel/root
-      format: xfs
-      label: root
-      path: /
       wipe_filesystem: true
       with_mount_unit: true
   files:
@@ -66,6 +38,11 @@ storage:
           #     protected.
           #     mls - Multi Level Security protection.
           SELINUXTYPE=targeted
+      mode: 0644
+      user:
+        id: 0
+      group:
+        id: 0
 systemd:
   units:
     - name: rpm-ostree-install-wifi.service

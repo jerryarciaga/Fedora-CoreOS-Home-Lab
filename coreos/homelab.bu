@@ -1,43 +1,11 @@
 variant: fcos
 version: 1.5.0
 storage:
-  disks:
-    - device: /dev/disk/by-diskseq/1
-      wipe_table: true
-      partitions:
-        - label: swap
-          size_mib: 16000
-  filesystems:
-    - device: /dev/disk/by-partlabel/swap
-      format: swap
-      label: swap
-      wipe_filesystem: true
-      with_mount_unit: true
   files:
     - path: /etc/hostname
       overwrite: true
       contents:
         inline: barista
-      mode: 0644
-      user:
-        id: 0
-      group:
-        id: 0
-    - path: /etc/selinux/config
-      contents:
-        inline: |
-          # This file controls the state of SELinux on the system.
-          # SELINUX= can take one of these three values:
-          #     enforcing - SELinux security policy is enforced.
-          #     permissive - SELinux prints warnings instead of enforcing.
-          #     disabled - No SELinux policy is loaded.
-          SELINUX=enforcing
-          # SELINUXTYPE= can take one of these three values:
-          #     targeted - Targeted processes are protected,
-          #     minimum - Modification of targeted policy. Only selected processes are
-          #     protected.
-          #     mls - Multi Level Security protection.
-          SELINUXTYPE=targeted
       mode: 0644
       user:
         id: 0

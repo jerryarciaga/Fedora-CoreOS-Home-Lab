@@ -11,25 +11,6 @@ storage:
         id: 0
       group:
         id: 0
-systemd:
-  units:
-    - name: rpm-ostree-install-wifi.service
-      enabled: true
-      contents: |
-        [Unit]
-        Description=Enable Wi-Fi
-        Wants=network-online.target
-        After=network-online.target
-        Before=zincati.service
-        ConditionPathExists=!/var/lib/%N.stamp
-        [Service]
-        Type=oneshot
-        RemainAfterExit=yes
-        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive NetworkManager-wifi iwl-mvm-firmware
-        ExecStart=/bin/touch /var/lib/%N.stamp
-        ExecStart=/bin/systemctl --no-block reboot
-        [Install]
-        WantedBy=multi-user.target
 passwd:
   users:
     - name: core

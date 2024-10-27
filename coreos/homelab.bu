@@ -9,14 +9,21 @@ storage:
           number: 4
           size_mib: 10240
           resize: true
-        - label: var
+        - label: swap
           number: 5
+          size_mib: 16000
+        - label: var
+          number: 6
           size_mib: 0
   filesystems:
     - device: /dev/disk/by-partlabel/root
       wipe_filesystem: true
       format: xfs
       label: root
+    - device: /dev/disk/by-partlabel/swap
+      format: swap
+      wipe_filesystem: true
+      with_mount_unit: true
     - path: /var
       device: /dev/disk/by-partlabel/var
       format: xfs

@@ -1,6 +1,26 @@
 variant: fcos
 version: 1.5.0
 storage:
+  disks:
+    - device: /dev/disk/by-id/coreos-boot-disk
+      wipe_table: false
+      partitions:
+        - label: root
+          number: 4
+          size_mib: 10240
+          resize: true
+        - label: var
+          number: 5
+          size_mib: 0
+  filesystems:
+    - device: /dev/disk/by-partlabel/root
+      wipe_filesystem: true
+      format: xfs
+      label: root
+    - path: /var
+      device: /dev/disk/by-partlabel/var
+      format: xfs
+      with_mount_unit: true
   files:
     - path: /etc/hostname
       overwrite: true

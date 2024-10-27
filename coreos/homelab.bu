@@ -15,18 +15,38 @@ storage:
         - label: var
           number: 6
           size_mib: 0
+  luks:
+    - name: root
+      label: luks-root
+      device: /dev/disk/by-partlabel/root
+      clevis:
+        tpm2: true
+      wipe_volume: true
+    - name: swap
+      label: luks-swap
+      device: /dev/disk/by-partlabel/swap
+      clevis:
+        tpm2: true
+      wipe_volume: true
+    - name: var
+      label: luks-var
+      device: /dev/disk/by-partlabel/var
+      clevis:
+        tpm2: true
+      wipe_volume: false
   filesystems:
-    - device: /dev/disk/by-partlabel/root
+    - device: /dev/mapper/root
       wipe_filesystem: true
       format: xfs
       label: root
-    - device: /dev/disk/by-partlabel/swap
+    - device: /dev/mapper/swap
       format: swap
       wipe_filesystem: true
       with_mount_unit: true
     - path: /var
-      device: /dev/disk/by-partlabel/var
+      device: /dev/mapper/var
       format: xfs
+      wipe_filesystem: false
       with_mount_unit: true
   files:
     - path: /etc/hostname

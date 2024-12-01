@@ -41,11 +41,15 @@ services:
 
 volumes:
   nextcloud-db:
+    name: nextcloud-db
   nextcloud-app:
+    name: nextcloud-app
   nextcloud-data:
+    name: nextcloud-data
 
 networks:
   nextcloud-net:
+    name: nextcloud-net
     ipam:
       driver: default
       config:

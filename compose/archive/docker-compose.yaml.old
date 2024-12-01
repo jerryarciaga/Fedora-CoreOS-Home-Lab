@@ -1,0 +1,171 @@
+version: "3"
+services:
+  
+  # Heimdall - Link Organizer
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    hostname: heimdall
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.3
+    ports:
+      - 8000:80/tcp
+      - 8443:443/tcp
+    dns:
+      - 172.20.1.2
+    environment:
+      - TZ=Asia/Seoul
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - heimdall:/config
+
+  # Pihole - DNS Sinkhole
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    hostname: pihole
+    restart: always
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.2
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 8080:80/tcp
+    dns:
+      - 127.0.0.1
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - pihole:/etc/pihole
+      - pihole_dnsmasq:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
+
+  # Nextcloud - Self-hosted cloud service
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    hostname: nextcloud
+    restart: always
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.4
+    ports:
+      - 8081:80
+    dns:
+      - 172.20.1.2
+    volumes:
+      - nextcloud:/var/www/html
+    depends_on:
+      - nextcloud_db
+    environment:
+      - TZ=Asia/Seoul
+      - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
+      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
+      - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
+      - POSTGRES_USER_FILE=/run/secrets/nextcloud_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_db_password
+    secrets:
+      - nextcloud_admin_user
+      - nextcloud_admin_password
+      - nextcloud_db_file
+      - nextcloud_db_user
+      - nextcloud_db_password
+  nextcloud_db:
+    image: postgres:latest
+    container_name: nextcloud_db
+    hostname: nextcloud_db
+    restart: always
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.5
+    environment:
+      - TZ=Asia/Seoul
+      - POSTGRES_DB_FILE=/run/secrets/nextcloud_db_file
+      - POSTGRES_USER_FILE=/run/secrets/nextcloud_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_db_password
+    volumes:
+      - nextcloud_db:/var/lib/postgresql/data
+    secrets:
+      - nextcloud_db_file
+      - nextcloud_db_user
+      - nextcloud_db_password
+  
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:latest
+    container_name: freshrss
+    hostname: freshrss
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.6
+    ports:
+      - 8082:80
+    dns:
+      - 172.20.1.2
+    environment:
+      - TZ=Asia/Seoul
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - freshrss:/config
+    depends_on:
+      - freshrss_db
+  freshrss_db:
+    image: postgres:latest
+    container_name: freshrss_db
+    hostname: freshrss_db
+    restart: unless-stopped
+    networks:
+      homelab:
+        ipv4_address: 172.20.1.7
+    environment:
+      - TZ=Asia/Seoul
+      - POSTGRES_DB_FILE=/run/secrets/freshrss_db_file
+      - POSTGRES_USER_FILE=/run/secrets/freshrss_db_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/freshrss_db_password
+    volumes:
+      - freshrss_db:/var/lib/postgresql/data
+    secrets:
+      - freshrss_db_file
+      - freshrss_db_user
+      - freshrss_db_password
+
+networks:
+  homelab:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.1.0/24
+
+volumes:
+  heimdall:
+  pihole:
+  pihole_dnsmasq:
+  nextcloud:
+  nextcloud_db:
+  freshrss:
+  freshrss_db:
+
+secrets:
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user.txt
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password.txt
+  nextcloud_db_file:
+    file: ./secrets/nextcloud_db_name.txt
+  nextcloud_db_user:
+    file: ./secrets/nextcloud_db_user.txt
+  nextcloud_db_password:
+    file: ./secrets/nextcloud_db_password.txt
+
+  freshrss_db_file:
+    file: ./secrets/freshrss_db_name.txt
+  freshrss_db_user:
+    file: ./secrets/freshrss_db_user.txt
+  freshrss_db_password:
+    file: ./secrets/freshrss_db_password.txt

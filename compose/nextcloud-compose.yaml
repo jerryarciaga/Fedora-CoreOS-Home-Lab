@@ -33,6 +33,7 @@ services:
       - nextcloud-app:/var/www/html
       - nextcloud-data:/var/www/html/data
     environment:
+      - TZ=America/Los_Angeles
       - MYSQL_DATABASE=nextcloud-db.dns.podman
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=DB_USER_PASSWORD

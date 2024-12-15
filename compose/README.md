@@ -1,7 +1,7 @@
 # Getting Started
 Run the compose file using the following command:
 
-`podman compose -f <compose-file.yaml> -d up`
+`podman compose -f <compose-file.yaml> up -d`
 
 I still need to work on setting up yaml files so I can store secrets (usernames and passwords) on separate files. Until then, the username is `<service>` and the password is `<service>_pass`.
 
